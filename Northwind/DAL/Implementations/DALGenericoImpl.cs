@@ -46,6 +46,8 @@ namespace DAL.Implementations
 
         public IEnumerable<TEntity> GetAll()
         {
+
+            
             return _Context.Set<TEntity>().ToList();
         }
 
