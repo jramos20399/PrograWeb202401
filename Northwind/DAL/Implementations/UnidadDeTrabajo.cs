@@ -15,11 +15,11 @@ namespace DAL.Implementations
 
         private readonly NorthWindContext _context;
 
-        public UnidadDeTrabajo(NorthWindContext context,
+        public UnidadDeTrabajo(NorthWindContext northWindContext,
                                 ICategoryDAL categoryDAL
                                 )
         {
-                _context = context;
+            _context = northWindContext;
             _categoryDAL = categoryDAL;
         }
 

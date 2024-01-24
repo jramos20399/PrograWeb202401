@@ -19,9 +19,9 @@ namespace BackEnd.Controllers
 
         // GET: api/<CategoryController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<CategoryModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return CategoryService.GetCategories();
         }
 
         // GET api/<CategoryController>/5

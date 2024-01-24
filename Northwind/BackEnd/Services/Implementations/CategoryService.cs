@@ -15,16 +15,28 @@ namespace BackEnd.Services.Implementations
             _unidadDeTrabajo = unidadDeTrabajo;
         }
 
-        public bool AddCategory(CategoryModel category)
+        CategoryModel Convertir(Category category )
         {
-            Category entity = new Category
+            return new CategoryModel { 
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName,
+                Description = category.Description
+            };
+        }
+
+        Category Convertir(CategoryModel category)
+        {
+            return new Category
             {
                 CategoryId = category.CategoryId,
-                Description = category.Description,
-                CategoryName = category.CategoryName
-
+                CategoryName = category.CategoryName,
+                Description = category.Description
             };
+        }
 
+        public bool AddCategory(CategoryModel category)
+        {
+            Category entity = Convertir(category);
             _unidadDeTrabajo._categoryDAL.Add(entity);
             return _unidadDeTrabajo.Complete();
         }
@@ -38,19 +50,22 @@ namespace BackEnd.Services.Implementations
         {
            var entity = _unidadDeTrabajo._categoryDAL.Get(id);
 
-            CategoryModel categoryModel = new CategoryModel
-            {
-
-                CategoryId = entity.CategoryId,
-                Description = entity.Description,
-                CategoryName = entity.CategoryName
-            };
+            CategoryModel categoryModel = Convertir(entity);
             return categoryModel;
         }
 
         public IEnumerable<CategoryModel> GetCategories()
         {
-            throw new NotImplementedException();
+
+            var result = _unidadDeTrabajo._categoryDAL.GetAll();
+            List<CategoryModel> lista = new List<CategoryModel>();
+            foreach (var category in result)
+            {
+                lista.Add(Convertir(category));                  
+                    
+
+            }
+           return lista;
         }
 
         public bool UpdateCategory(CategoryModel category)
