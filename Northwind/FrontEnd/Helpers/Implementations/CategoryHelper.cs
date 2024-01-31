@@ -2,6 +2,7 @@
 using FrontEnd.Helpers.Interfaces;
 using FrontEnd.Models;
 using Newtonsoft.Json;
+using NuGet.Protocol.Core.Types;
 
 namespace FrontEnd.Helpers.Implementations
 {
@@ -17,7 +18,15 @@ namespace FrontEnd.Helpers.Implementations
 
         public CategoryViewModel AddCategory(CategoryViewModel category)
         {
-            throw new NotImplementedException();
+           
+            HttpResponseMessage responseMessage = ServiceRepository.PostResponse("api/Category", Convertir(category));
+            if (responseMessage != null)
+            {
+                var content = responseMessage.Content.ReadAsStringAsync().Result;
+              // var  categoryAPI = JsonConvert.DeserializeObject<Category>(content);
+            }
+
+            return category;
         }
 
 
@@ -44,7 +53,15 @@ namespace FrontEnd.Helpers.Implementations
 
         public CategoryViewModel DeleteCategory(int id)
         {
-            throw new NotImplementedException();
+
+            HttpResponseMessage responseMessage = ServiceRepository.DeleteResponse("api/Category/" + id.ToString());
+            if (responseMessage != null)
+            {
+                var content = responseMessage.Content.ReadAsStringAsync().Result;
+
+            }
+
+            return new CategoryViewModel();
         }
 
         public List<CategoryViewModel> GetCategories()
@@ -74,12 +91,27 @@ namespace FrontEnd.Helpers.Implementations
 
         public CategoryViewModel GetCategory(int id)
         {
-            throw new NotImplementedException();
+            CategoryViewModel category = new CategoryViewModel();
+            HttpResponseMessage responseMessage = ServiceRepository.GetResponse("api/Category/" + id.ToString());
+            if (responseMessage != null)
+            {
+                var content = responseMessage.Content.ReadAsStringAsync().Result;
+                category = Convertir(JsonConvert.DeserializeObject<Category>(content));
+            }
+
+            return category;
         }
 
         public CategoryViewModel UpdateCategory(CategoryViewModel category)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage responseMessage = ServiceRepository.PutResponse("api/Category", Convertir(category));
+            if (responseMessage != null)
+            {
+                var content = responseMessage.Content.ReadAsStringAsync().Result;
+             // var  categoryAPI = JsonConvert.DeserializeObject<Category>(content);
+            }
+
+            return category;
         }
     }
 }
