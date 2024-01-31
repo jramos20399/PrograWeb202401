@@ -15,9 +15,19 @@ namespace BackEnd.Services.Implementations
             _unidadDeTrabajo = unidadDeTrabajo;
         }
 
-        CategoryModel Convertir(Category category )
+      
+
+        public bool AddCategory(CategoryModel category)
         {
-            return new CategoryModel { 
+            Category entity = Convertir(category);
+            _unidadDeTrabajo._categoryDAL.Add(entity);
+            return _unidadDeTrabajo.Complete();
+        }
+
+        CategoryModel Convertir(Category category)
+        {
+            return new CategoryModel
+            {
                 CategoryId = category.CategoryId,
                 CategoryName = category.CategoryName,
                 Description = category.Description
@@ -33,14 +43,6 @@ namespace BackEnd.Services.Implementations
                 Description = category.Description
             };
         }
-
-        public bool AddCategory(CategoryModel category)
-        {
-            Category entity = Convertir(category);
-            _unidadDeTrabajo._categoryDAL.Add(entity);
-            return _unidadDeTrabajo.Complete();
-        }
-
         public bool DeteleCategory(CategoryModel category)
         {
             Category entity = Convertir(category);
