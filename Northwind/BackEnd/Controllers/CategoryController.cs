@@ -1,5 +1,6 @@
 ﻿using BackEnd.Models;
 using BackEnd.Services.Interfaces;
+using Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -33,20 +34,45 @@ namespace BackEnd.Controllers
 
         // POST api/<CategoryController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public string Post([FromBody] CategoryModel category)
         {
+            var result = CategoryService.AddCategory(category);
+
+            if (result)
+            {
+                return "Categoría Agregada Correctamente.";
+            }
+            return "Hubo un error al agregar  la entidad.";
+
         }
 
         // PUT api/<CategoryController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public string Put([FromBody] CategoryModel category)
         {
+            var result = CategoryService.UpdateCategory(category);
+
+            if (result)
+            {
+                return "Categoría Editada Correctamente.";
+            }
+            return "Hubo un error al editar  la entidad.";
         }
 
         // DELETE api/<CategoryController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public string Delete(int id)
         {
+
+            CategoryModel category = new CategoryModel { CategoryId = id };
+            var result = CategoryService.DeteleCategory(category);
+
+            if (result)
+            {
+                return "Categoría Eliminada Correctamente.";
+            }
+            return "Hubo un error al eliminar  la entidad.";
+
         }
     }
 }
