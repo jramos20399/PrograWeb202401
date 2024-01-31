@@ -16,7 +16,7 @@ namespace FrontEnd.Helpers.Implementations
         public ServiceRepository(HttpClient _client, IConfiguration configuration)
         {
             Client = _client;
-            string baseUrl = configuration.GetValue<string>("BackEnd:Url");
+            string baseUrl = configuration.GetValue<string>("BackEnd:Url") ;
 
             Client.BaseAddress = new Uri(baseUrl);
 
