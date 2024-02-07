@@ -39,16 +39,26 @@ namespace FrontEnd.Controllers
         // GET: ProductController/Create
         public ActionResult Create()
         {
-            return View();
+
+
+
+            ProductViewModel product = new ProductViewModel();
+            product.Categories = CategoryHelper.GetCategories();
+            product.Suppliers = SupplierHelper.GetAll();
+
+
+
+            return View(product);
         }
 
         // POST: ProductController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(ProductViewModel product)
         {
             try
             {
+                ProductHelper.AddProduct(product);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -60,16 +70,21 @@ namespace FrontEnd.Controllers
         // GET: ProductController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            ProductViewModel product = ProductHelper.GetById(id);
+            product.Suppliers = SupplierHelper.GetAll();
+            product.Categories = CategoryHelper.GetCategories();
+
+            return View(product);
         }
 
         // POST: ProductController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(ProductViewModel product)
         {
             try
             {
+                ProductHelper.EdiProduct(product);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -81,16 +96,19 @@ namespace FrontEnd.Controllers
         // GET: ProductController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            ProductViewModel product = ProductHelper.GetById(id);
+
+            return View(product);
         }
 
         // POST: ProductController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(ProductViewModel product)
         {
             try
             {
+                ProductHelper.DeleteProduct(product.ProductId);
                 return RedirectToAction(nameof(Index));
             }
             catch
