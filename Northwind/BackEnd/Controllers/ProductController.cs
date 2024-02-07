@@ -23,7 +23,7 @@ namespace BackEnd.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            var result = ProductService.GetProducts();
+            List<ProductModel> result = ProductService.GetProducts().Result;
 
             return new JsonResult(result);
         }

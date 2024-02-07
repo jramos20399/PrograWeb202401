@@ -86,7 +86,7 @@ namespace FrontEnd.Helpers.Implementations
             if (responseMessage != null)
             {
                 var content = responseMessage.Content.ReadAsStringAsync().Result;
-                result = JsonConvert.DeserializeObject<List<Product>>(content);
+                 result = JsonConvert.DeserializeObject<List<Product>>(content);
             }
 
             foreach (var item in result)
