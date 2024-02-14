@@ -32,7 +32,7 @@ namespace BackEnd.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            var result = ProductService.GetById(id);
+            ProductModel result = ProductService.GetById(id).Result;
 
             return new JsonResult(result);
         }

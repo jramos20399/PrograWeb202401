@@ -30,10 +30,14 @@ namespace FrontEnd.Controllers
             return View(lista);
         }
 
+
+        
         // GET: ProductController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var product = ProductHelper.GetById(id);
+            product.Category = CategoryHelper.GetCategory((int)product.CategoryId);
+            return View(product);
         }
 
         // GET: ProductController/Create

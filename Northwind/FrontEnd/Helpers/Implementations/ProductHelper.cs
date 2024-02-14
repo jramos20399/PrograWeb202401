@@ -9,10 +9,13 @@ namespace FrontEnd.Helpers.Implementations
     public class ProductHelper : IProductHelper
     {
         IServiceRepository _repository;
+        
 
         public ProductHelper(IServiceRepository serviceRepository)
         {
             _repository = serviceRepository;
+           
+
         }
 
         public ProductViewModel AddProduct(ProductViewModel ProductViewModel)
