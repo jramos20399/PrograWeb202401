@@ -1,5 +1,6 @@
 ﻿using DAL.Interfaces;
 using Entities.Entities;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -49,5 +50,45 @@ namespace DAL.Implementations
 
             return categories;
         }
+
+
+        public bool Add(Category entity)
+        {
+            try
+            {
+
+                string sql = "exec [dbo].[sp_AddCategory] @CategoryName, @Description";
+
+                var param = new SqlParameter[]
+                {
+                    new SqlParameter()
+                    {
+                        ParameterName= "@CategoryName",
+                        SqlDbType= System.Data.SqlDbType.VarChar,
+                        Direction = System.Data.ParameterDirection.Input,
+                        Value=entity.CategoryName
+                    },
+                    new SqlParameter()
+                    {
+                        ParameterName= "@Description",
+                        SqlDbType= System.Data.SqlDbType.VarChar,
+                        Direction = System.Data.ParameterDirection.Input,
+                        Value=entity.Description
+                    }
+
+                };
+
+
+                _Context.Database.ExecuteSqlRaw(sql, param);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+
     }
 }
