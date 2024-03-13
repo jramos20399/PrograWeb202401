@@ -19,9 +19,15 @@ namespace BackEnd.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            return Ok();
+            var user= await userManager.FindByNameAsync(model.Username);
+            if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
+            {
+                return Ok(new Response { Status = "Success", Message = "Credenciales Correctas!" });
+            }
+
+            return Unauthorized(new Response { Status = "Error", Message = "Credenciales Incorrectas" });
         }
         [HttpPost]
         [Route("registrar")]
