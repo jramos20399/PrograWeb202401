@@ -1,6 +1,7 @@
 ﻿using BackEnd.Models;
 using BackEnd.Services.Interfaces;
 using Entities.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -26,6 +27,7 @@ namespace BackEnd.Controllers
         }
 
         // GET api/<CategoryController>/5
+        [Authorize]
         [HttpGet("{id}")]
         public CategoryModel Get(int id)
         {

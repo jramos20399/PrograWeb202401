@@ -103,6 +103,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ApiKeyManager>();
+
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
