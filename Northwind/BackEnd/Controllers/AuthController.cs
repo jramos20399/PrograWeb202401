@@ -1,7 +1,9 @@
 ﻿using BackEnd.Model;
+using BackEnd.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 
 namespace BackEnd.Controllers
 {
@@ -11,10 +13,12 @@ namespace BackEnd.Controllers
     {
 
         private readonly UserManager<IdentityUser> userManager;
+        ITokenService TokenService;
 
-        public AuthController(UserManager<IdentityUser> userManager)
+        public AuthController(UserManager<IdentityUser> userManager, ITokenService tokenService)
         {
                 this.userManager = userManager;
+            this.TokenService = tokenService;
         }
 
         [HttpPost]
@@ -24,7 +28,18 @@ namespace BackEnd.Controllers
             var user= await userManager.FindByNameAsync(model.Username);
             if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
             {
-                return Ok(new Response { Status = "Success", Message = "Credenciales Correctas!" });
+                var userRoles = await userManager.GetRolesAsync(user);
+
+                TokenModel tokenModel = TokenService.CreateToken(user, userRoles.ToList());
+                LoginModel usuario = new LoginModel
+                {
+                    Username = model.Username,
+                    Roles = userRoles.ToList(),
+                    Password= "",
+                    Token = tokenModel
+                };
+
+                return Ok(usuario);
             }
 
             return Unauthorized(new Response { Status = "Error", Message = "Credenciales Incorrectas" });

@@ -11,11 +11,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(x => x.LoginPath="/account/login");
 
+builder.Services.AddSession();
+
 builder.Services.AddHttpClient<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<ICategoryHelper, CategoryHelper>();
 builder.Services.AddScoped<ISupplierHelper, SupplierHelper>();
 builder.Services.AddScoped<IProductHelper, ProductHelper>();
+builder.Services.AddScoped<ISecurityHelper, SecurityHelper>();
 
 
 
@@ -31,7 +34,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 

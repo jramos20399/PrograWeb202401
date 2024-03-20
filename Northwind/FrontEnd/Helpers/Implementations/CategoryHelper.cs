@@ -9,7 +9,8 @@ namespace FrontEnd.Helpers.Implementations
     public class CategoryHelper : ICategoryHelper
     {
         IServiceRepository ServiceRepository;
-       
+        public string Token { get; set; }
+
         public CategoryHelper(IServiceRepository serviceRepository)
         {
             ServiceRepository = serviceRepository;
@@ -92,6 +93,9 @@ namespace FrontEnd.Helpers.Implementations
         public CategoryViewModel GetCategory(int id)
         {
             CategoryViewModel category = new CategoryViewModel();
+            ServiceRepository.Client.DefaultRequestHeaders.Authorization =
+               new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token);
+        
             HttpResponseMessage responseMessage = ServiceRepository.GetResponse("api/Category/" + id.ToString());
             if (responseMessage != null)
             {

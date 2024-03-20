@@ -28,6 +28,7 @@ namespace FrontEnd.Controllers
         // GET: CategoryController/Details/5
         public ActionResult Details(int id)
         {
+            CategoryHelper.Token = HttpContext.Session.GetString("token");
             CategoryViewModel category = CategoryHelper.GetCategory(id);
             return View(category);
         }
