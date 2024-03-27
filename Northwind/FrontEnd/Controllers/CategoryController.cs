@@ -18,7 +18,7 @@ namespace FrontEnd.Controllers
         }
 
 
-        [Authorize(Roles ="SuperUsuario")]
+        [Authorize(Roles ="Admin")]
         // GET: CategoryController
         public ActionResult Index()
         {

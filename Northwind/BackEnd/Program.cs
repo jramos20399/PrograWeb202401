@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using System.Runtime.InteropServices;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +45,19 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireLowercase = false;
     options.Password.RequireUppercase = false;
 });
+
+#endregion
+
+
+#region Serilog
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Host.UseSerilog((ctx,lc) => lc
+            .WriteTo.File("log/logsBackEnd.txt",rollingInterval: RollingInterval.Day)
+            .MinimumLevel.Information()
+);
+
 
 #endregion
 
